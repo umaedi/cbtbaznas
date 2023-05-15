@@ -27,7 +27,7 @@
                                 type="number"
                                 class="form-control"
                                 v-model="form.nisn"
-                                placeholder="Nisn"
+                                placeholder="Nomor Ujian"
                             />
                         </div>
                         <div v-if="errors.nisn" class="alert alert-danger mt-2">

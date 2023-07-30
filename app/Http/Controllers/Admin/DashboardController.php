@@ -31,11 +31,21 @@ class DashboardController extends Controller
         //count classrooms
         $classrooms = Classroom::count();
 
+        //get students
+        $student = Student::where('login', '!=', 0)->when(request()->q, function ($student) {
+            $student = $student->where('name', 'like', '%' . request()->q . '%')
+                ->orWhere('nisn', 'like', '%' . request()->q . '%');
+        })->with('classroom')->latest()->paginate(10);
+
+        //append query string to pagination links
+        $student->appends(['q' => request()->q]);
+
         return inertia('Admin/Dashboard/Index', [
             'students'      => $students,
             'exams'         => $exams,
             'exam_sessions' => $exam_sessions,
             'classrooms'    => $classrooms,
+            'xstudents'      => $student
         ]);
     }
 }

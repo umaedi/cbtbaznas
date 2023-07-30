@@ -26,15 +26,15 @@ class DashboardController extends Controller
         $data = [];
 
         //get nilai
-        foreach($exam_groups as $exam_group) {
-            
+        foreach ($exam_groups as $exam_group) {
+
             //get data nilai / grade
             $grade = Grade::where('exam_id', $exam_group->exam_id)
                 ->where('student_id', auth()->guard('student')->user()->id)
                 ->first();
 
             //jika nilai / grade kosong, maka buat baru
-            if($grade == null) {
+            if ($grade == null) {
 
                 //create defaul grade
                 $grade = new Grade();
@@ -45,14 +45,12 @@ class DashboardController extends Controller
                 $grade->total_correct   = 0;
                 $grade->grade           = 0;
                 $grade->save();
-
             }
 
             $data[] = [
                 'exam_group' => $exam_group,
                 'grade'      => $grade
             ];
-
         }
 
         //return with inertia

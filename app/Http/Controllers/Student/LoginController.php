@@ -28,10 +28,17 @@ class LoginController extends Controller
             'password'  => $request->password
         ])->first();
 
-        if(!$student) {
+        if (!$student) {
             return redirect()->back()->with('error', 'NISN atau Password salah');
         }
-        
+
+        if ($student->login == 2) {
+            return redirect()->back()->with('error', 'Anda hanya bisa login 1X dalam satu sesi');
+        }
+
+        $student->login = 1;
+        $student->save();
+
         //login the user
         auth()->guard('student')->login($student);
 

@@ -19,8 +19,8 @@ class StudentController extends Controller
     public function index()
     {
         //get students
-        $students = Student::when(request()->q, function($students) {
-            $students = $students->where('name', 'like', '%'. request()->q . '%');
+        $students = Student::when(request()->q, function ($students) {
+            $students = $students->where('name', 'like', '%' . request()->q . '%');
         })->with('classroom')->latest()->paginate(5);
 
         //append query string to pagination links
@@ -111,14 +111,14 @@ class StudentController extends Controller
         //validate request
         $request->validate([
             'name'          => 'required|string|max:255',
-            'nisn'          => 'required|unique:students,nisn,'.$student->id,
+            'nisn'          => 'required|unique:students,nisn,' . $student->id,
             'gender'        => 'required|string',
             'classroom_id'  => 'required',
             'password'      => 'confirmed'
         ]);
 
         //check passwordy
-        if($request->password == "") {
+        if ($request->password == "") {
 
             //update student without password
             $student->update([
@@ -127,7 +127,6 @@ class StudentController extends Controller
                 'gender'        => $request->gender,
                 'classroom_id'  => $request->classroom_id
             ]);
-
         } else {
 
             //update student with password
@@ -138,12 +137,10 @@ class StudentController extends Controller
                 'password'      => $request->password,
                 'classroom_id'  => $request->classroom_id
             ]);
-
         }
 
         //redirect
         return redirect()->route('admin.students.index');
-
     }
 
     /**
@@ -173,7 +170,7 @@ class StudentController extends Controller
     {
         return inertia('Admin/Students/Import');
     }
-    
+
     /**
      * storeImport
      *
@@ -191,5 +188,10 @@ class StudentController extends Controller
 
         //redirect
         return redirect()->route('admin.students.index');
+    }
+
+    public function updateStatus($id)
+    {
+        Student::where('id', $id)->update(['login' => 0]);
     }
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('password');
             $table->enum('gender', ['L', 'P'])->default('L');
+            $table->string('login')->default('0');
             $table->timestamps();
         });
     }

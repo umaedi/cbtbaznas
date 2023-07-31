@@ -33,7 +33,7 @@ class LogoutController extends Controller
     }
     public function __invoke(Request $request, $id): LogoutResponse
     {
-        Student::where('id', $id)->update(['login' => 2]);
+        Student::where('id', $id)->update(['login' => '2']);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return app(LogoutResponse::class);

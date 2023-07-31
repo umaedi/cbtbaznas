@@ -32,11 +32,11 @@ class LoginController extends Controller
             return redirect()->back()->with('error', 'NISN atau Password salah');
         }
 
-        if ($student->login == 2) {
+        if ($student->login == '2') {
             return redirect()->back()->with('error', 'Anda hanya bisa login 1X dalam satu sesi');
         }
 
-        $student->login = 1;
+        $student->login = '1';
         $student->save();
 
         //login the user

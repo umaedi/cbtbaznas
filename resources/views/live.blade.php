@@ -33,6 +33,7 @@
             <th scope="col">NO UJIAN</th>
             <th scope="col">NAMA</th>
             <th scope="col">STATUS</th>
+            <th scope="col">NILAI</th>
           </tr>
         </thead>
         <tbody id="tbody">

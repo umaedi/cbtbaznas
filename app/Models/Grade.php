@@ -24,7 +24,7 @@ class Grade extends Model
         'total_correct',
         'grade',
     ];
-    
+
     /**
      * exam
      *

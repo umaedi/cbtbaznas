@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
-{    
+{
     /**
      * index
      *
@@ -28,7 +28,7 @@ class ReportController extends Controller
             'grades'        => []
         ]);
     }
-    
+
     /**
      * filter
      *
@@ -46,29 +46,27 @@ class ReportController extends Controller
 
         //get exam
         $exam = Exam::with('lesson', 'classroom')
-                ->where('id', $request->exam_id)
-                ->first();
+            ->where('id', $request->exam_id)
+            ->first();
 
-        if($exam) {
+        if ($exam) {
 
             //get exam session
             $exam_session = ExamSession::where('exam_id', $exam->id)->first();
 
             //get grades / nilai
             $grades = Grade::with('student', 'exam.classroom', 'exam.lesson', 'exam_session')
-                    ->where('exam_id', $exam->id)
-                    ->where('exam_session_id', $exam_session->id)        
-                    ->get();
-
+                ->where('exam_id', $exam->id)
+                ->where('exam_session_id', $exam_session->id)
+                ->get();
         } else {
             $grades = [];
-        }        
-        
+        }
+
         return inertia('Admin/Reports/Index', [
             'exams'         => $exams,
             'grades'         => $grades,
         ]);
-        
     }
 
     /**
@@ -81,18 +79,18 @@ class ReportController extends Controller
     {
         //get exam
         $exam = Exam::with('lesson', 'classroom')
-                ->where('id', $request->exam_id)
-                ->first();
+            ->where('id', $request->exam_id)
+            ->first();
 
         //get exam session
         $exam_session = ExamSession::where('exam_id', $exam->id)->first();
 
         //get grades / nilai
         $grades = Grade::with('student', 'exam.classroom', 'exam.lesson', 'exam_session')
-                ->where('exam_id', $exam->id)
-                ->where('exam_session_id', $exam_session->id)        
-                ->get();
+            ->where('exam_id', $exam->id)
+            ->where('exam_session_id', $exam_session->id)
+            ->get();
 
-        return Excel::download(new GradesExport($grades), 'grade : '.$exam->title.' — '.$exam->lesson->title.' — '.Carbon::now().'.xlsx');
+        return Excel::download(new GradesExport($grades), 'grade : ' . $exam->title . ' — ' . $exam->lesson->title . ' — ' . Carbon::now() . '.xlsx');
     }
 }

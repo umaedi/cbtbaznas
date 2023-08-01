@@ -2,6 +2,7 @@
 
 namespace App\Http\Responses;
 
+use App\Models\Student;
 use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
 
 class LogoutResponse implements LogoutResponseContract
@@ -15,6 +16,9 @@ class LogoutResponse implements LogoutResponseContract
      */
     public function toResponse($request)
     {
+
+
+        Student::where('id', auth()->user()->id)->update(['login' => '2']);
         return redirect('/');
     }
 }

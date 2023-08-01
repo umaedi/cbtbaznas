@@ -21,9 +21,9 @@ class ExamController extends Controller
     public function index()
     {
         //get exams
-        $exams = Exam::when(request()->q, function($exams) {
-            $exams = $exams->where('title', 'like', '%'. request()->q . '%');
-        })->with('lesson', 'classroom', 'questions')->latest()->paginate(5);
+        $exams = Exam::when(request()->q, function ($exams) {
+            $exams = $exams->where('title', 'like', '%' . request()->q . '%');
+        })->with('lesson', 'classroom', 'questions')->paginate(5);
 
         //append query string to pagination links
         $exams->appends(['q' => request()->q]);
@@ -46,7 +46,7 @@ class ExamController extends Controller
 
         //get classrooms
         $classrooms = Classroom::all();
-        
+
         //render with inertia
         return inertia('Admin/Exams/Create', [
             'lessons' => $lessons,
@@ -88,7 +88,6 @@ class ExamController extends Controller
 
         //redirect
         return redirect()->route('admin.exams.index');
-
     }
 
     /**
@@ -103,7 +102,7 @@ class ExamController extends Controller
         $exam = Exam::with('lesson', 'classroom')->findOrFail($id);
 
         //get relation questions with pagination
-        $exam->setRelation('questions', $exam->questions()->paginate(5));
+        $exam->setRelation('questions', $exam->questions()->orderBy('created_at', 'DESC')->paginate(5));
 
         //render with inertia
         return inertia('Admin/Exams/Show', [
@@ -204,7 +203,7 @@ class ExamController extends Controller
             'exam' => $exam,
         ]);
     }
-    
+
     /**
      * storeQuestion
      *
@@ -224,7 +223,7 @@ class ExamController extends Controller
             'option_5'          => 'required',
             'answer'            => 'required',
         ]);
-        
+
         //create question
         Question::create([
             'exam_id'           => $exam->id,
@@ -236,7 +235,7 @@ class ExamController extends Controller
             'option_5'          => $request->option_5,
             'answer'            => $request->answer,
         ]);
-        
+
         //redirect
         return redirect()->route('admin.exams.show', $exam->id);
     }
@@ -277,7 +276,7 @@ class ExamController extends Controller
             'option_5'          => 'required',
             'answer'            => 'required',
         ]);
-        
+
         //update question
         $question->update([
             'question'          => $request->question,
@@ -288,7 +287,7 @@ class ExamController extends Controller
             'option_5'          => $request->option_5,
             'answer'            => $request->answer,
         ]);
-        
+
         //redirect
         return redirect()->route('admin.exams.show', $exam->id);
     }
@@ -304,7 +303,7 @@ class ExamController extends Controller
     {
         //delete question
         $question->delete();
-        
+
         //redirect
         return redirect()->route('admin.exams.show', $exam->id);
     }
@@ -320,7 +319,7 @@ class ExamController extends Controller
             'exam' => $exam
         ]);
     }
-    
+
     /**
      * storeImport
      *

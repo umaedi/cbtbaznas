@@ -1,4 +1,3 @@
-.
 <template>
     <Head>
         <title>Dashboard Siswa - Aplikasi Ujian Online</title>

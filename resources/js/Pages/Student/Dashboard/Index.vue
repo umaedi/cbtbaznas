@@ -170,14 +170,14 @@ export default {
         auth: Object,
     },
 
-    setup(props) {
-        // window.focus(() => {
-        //     window.location.href = "/student/logout/" + props.auth.student.id;
-        // });
-        window.onfocus = function () {
-            window.location.href = "/student/logout/" + props.auth.student.id;
-        };
-    },
+    // setup(props) {
+    //     // window.focus(() => {
+    //     //     window.location.href = "/student/logout/" + props.auth.student.id;
+    //     // });
+    //     window.onfocus = function () {
+    //         window.location.href = "/student/logout/" + props.auth.student.id;
+    //     };
+    // },
 };
 </script>
 
